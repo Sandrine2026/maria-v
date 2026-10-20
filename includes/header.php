@@ -2,7 +2,7 @@
 require_once __DIR__ . '/language.php';
 require_once __DIR__ . '/functions.php';
 $titrePage = $titrePage ?? 'MARIA-V';
-$descriptionPage = $descriptionPage ?? ($t['tagline'] ?? 'MARIA-V');
+$descriptionPage = $descriptionPage ?? ($t['tagline'] ?? ' MARIA-V');
 ?>
 <!DOCTYPE html>
 <html lang="<?= e($langue) ?>">
