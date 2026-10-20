@@ -1,0 +1,2470 @@
+
+/* =========================
+   1. VARIABLES ET BASE
+========================= */
+
+:root {
+    --or: #c6a45c;
+    --or-clair: #e5d3a0;
+    --vert: #183d32;
+    --blanc: #ffffff;
+    --fond: #faf8f2;
+    --texte: #333333;
+    --gris: #666666;
+    --ombre: 0 4px 18px rgba(0, 0, 0, 0.08);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--fond);
+    color: var(--texte);
+    line-height: 1.6;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+.container {
+    width: min(1120px, 92%);
+    margin: 0 auto;
+}
+
+/* =========================
+   2. EN-TÊTE ET NAVIGATION
+========================= */
+
+.site-header {
+    background: var(--blanc);
+    box-shadow: var(--ombre);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.navbar {
+    min-height: 85px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 12px 0;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--vert);
+    font-size: 1.4rem;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+.logo img {
+    width: 55px;
+    height: 55px;
+    object-fit: contain;
+}
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.nav-menu a {
+    color: var(--texte);
+    font-size: 0.95rem;
+    transition: color 0.3s ease;
+}
+
+.nav-menu a:hover,
+.nav-menu a.active {
+    color: var(--or);
+}
+
+.language-selector {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.language-selector a {
+    padding: 5px 7px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: var(--vert);
+}
+
+.language-selector a:hover {
+    background: var(--or-clair);
+}
+
+/* =========================
+   3. CONTENU PRINCIPAL
+========================= */
+
+main {
+    min-height: 60vh;
+}
+
+.hero {
+    padding: 100px 20px;
+    text-align: center;
+    background: linear-gradient(
+        135deg,
+        #f5eedb,
+        #ffffff
+    );
+}
+
+.hero h1 {
+    max-width: 850px;
+    margin: 0 auto 20px;
+    color: var(--vert);
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    line-height: 1.2;
+}
+
+.hero p {
+    max-width: 650px;
+    margin: 0 auto;
+    color: var(--gris);
+    font-size: 1.1rem;
+}
+
+/* =========================
+   4. PIED DE PAGE
+========================= */
+
+.site-footer {
+    background: var(--vert);
+    color: var(--blanc);
+    margin-top: 60px;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 40px;
+    padding: 45px 0;
+}
+
+.footer-brand h3 {
+    color: var(--or-clair);
+    font-size: 1.5rem;
+    margin-bottom: 12px;
+}
+
+.footer-brand p {
+    max-width: 420px;
+    color: #e5e5e5;
+}
+
+.footer-links h4 {
+    color: var(--or-clair);
+    margin-bottom: 12px;
+}
+
+.footer-links a {
+    display: block;
+    width: fit-content;
+    margin-bottom: 8px;
+    color: #e5e5e5;
+}
+
+.footer-links a:hover {
+    color: var(--or-clair);
+}
+
+.footer-bottom {
+    padding: 18px 15px;
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    font-size: 0.9rem;
+}
+
+/* =========================
+   5. ADAPTATION AUX MOBILES
+========================= */
+
+@media (max-width: 900px) {
+    .navbar {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .nav-menu {
+        order: 3;
+        width: 100%;
+        gap: 15px;
+    }
+
+    .language-selector {
+        margin-left: auto;
+    }
+}
+
+@media (max-width: 600px) {
+    .navbar {
+        gap: 15px;
+    }
+
+    .logo {
+        font-size: 1.2rem;
+    }
+
+    .logo img {
+        width: 45px;
+        height: 45px;
+    }
+
+    .nav-menu {
+        gap: 10px 16px;
+    }
+
+    .nav-menu a {
+        font-size: 0.9rem;
+    }
+
+    .language-selector {
+        margin-left: 0;
+    }
+
+    .hero {
+        padding: 65px 15px;
+    }
+
+    .hero p {
+        font-size: 1rem;
+    }
+
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 25px;
+        padding: 35px 0;
+    }
+}
+
+/* =========================
+   6. PAGE D'ACCUEIL
+========================= */
+
+.surtitre {
+    color: var(--or);
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.85rem;
+    margin-bottom: 12px;
+}
+
+.hero-actions {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 13px 24px;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+    transition: 0.3s ease;
+}
+
+.btn-primary {
+    background: var(--or);
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background: var(--vert);
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    border: 1px solid var(--vert);
+    color: var(--vert);
+}
+
+.btn-secondary:hover {
+    background: var(--vert);
+    color: #ffffff;
+}
+
+.section {
+    padding: 75px 0;
+}
+
+.section-light {
+    background: #f1eee5;
+}
+
+.section-heading {
+    max-width: 760px;
+    margin: 0 auto 40px;
+    text-align: center;
+}
+
+.section-heading h2,
+.cta-section h2 {
+    color: var(--vert);
+    font-size: clamp(1.7rem, 4vw, 2.4rem);
+    line-height: 1.3;
+    margin-bottom: 18px;
+}
+
+.section-heading > p:last-child,
+.cta-section p {
+    color: var(--gris);
+}
+
+.missions-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 25px;
+}
+
+.mission-card {
+    background: #ffffff;
+    padding: 30px 24px;
+    border-radius: 10px;
+    box-shadow: var(--ombre);
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.mission-card:hover {
+    transform: translateY(-5px);
+}
+
+.mission-icon {
+    width: 60px;
+    height: 60px;
+    display: grid;
+    place-items: center;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    background: #f5eedb;
+    color: var(--or);
+    font-size: 1.8rem;
+}
+
+.mission-card h3 {
+    color: var(--vert);
+    margin-bottom: 12px;
+}
+
+.mission-card p {
+    color: var(--gris);
+}
+
+.cta-section {
+    text-align: center;
+    max-width: 800px;
+}
+
+.cta-section p {
+    margin-bottom: 25px;
+}
+
+@media (max-width: 700px) {
+    .missions-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .section {
+        padding: 55px 0;
+    }
+
+    .hero-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+
+/* Grande bannière de la page d'accueil */
+
+.hero {
+    min-height: 520px;
+    display: flex;
+    align-items: center;
+    text-align: left;
+    padding: 90px 20px;
+    color: #ffffff;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(10, 35, 29, 0.88),
+            rgba(10, 35, 29, 0.30)
+        ),
+        url("../images/hero-maria-v.jpg");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.hero h1 {
+    color: #ffffff;
+    max-width: 700px;
+}
+
+.hero p {
+    color: #ffffff;
+    max-width: 600px;
+    margin-left: 0;
+}
+
+.hero .surtitre {
+    color: #e5c16e;
+}
+
+@media (max-width: 600px) {
+    .hero {
+        min-height: 430px;
+        padding: 60px 15px;
+        background-position: center;
+    }
+}
+
+
+/* =========================
+   PAGE D'ELIGIBILITE
+========================= */
+
+.page-banner {
+    padding: 65px 0;
+    background: linear-gradient(135deg, #183d32, #285849);
+    color: #ffffff;
+    text-align: center;
+}
+
+.page-banner h1 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    margin-bottom: 15px;
+}
+
+.page-banner p:not(.surtitre) {
+    max-width: 650px;
+    margin: 0 auto;
+    color: #f0f0f0;
+}
+
+.eligibility-section {
+    padding: 65px 0;
+}
+
+.eligibility-layout {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    align-items: start;
+    gap: 45px;
+}
+
+.eligibility-info h2,
+.eligibility-form-card h2 {
+    color: var(--vert);
+    font-size: 1.7rem;
+    margin-bottom: 18px;
+}
+
+.eligibility-image {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 28px;
+}
+
+.step-item {
+    display: flex;
+    gap: 15px;
+    margin: 25px 0;
+}
+
+.step-number {
+    flex: 0 0 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--or);
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.step-item h3 {
+    color: var(--vert);
+    font-size: 1.05rem;
+    margin-bottom: 5px;
+}
+
+.step-item p,
+.privacy-note {
+    color: var(--gris);
+    font-size: 0.95rem;
+}
+
+.privacy-note {
+    border-left: 4px solid var(--or);
+    padding: 12px 15px;
+    background: #f5eedb;
+    border-radius: 0 6px 6px 0;
+}
+
+.eligibility-form-card {
+    padding: 32px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: var(--ombre);
+}
+
+.form-intro {
+    color: var(--gris);
+    font-size: 0.92rem;
+    margin-bottom: 25px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    color: var(--vert);
+    margin-bottom: 8px;
+}
+
+.form-group input:not([type="checkbox"]):not([type="file"]) {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #d5d8d4;
+    border-radius: 6px;
+    font: inherit;
+    background: #ffffff;
+}
+
+.form-group input:focus {
+    outline: 2px solid var(--or-clair);
+    border-color: var(--or);
+}
+
+.form-group input[type="file"] {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    border: 1px dashed #b8b8b8;
+    border-radius: 6px;
+    background: var(--fond);
+}
+
+.form-group small {
+    display: block;
+    color: var(--gris);
+    margin-top: 8px;
+    font-size: 0.82rem;
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.checkbox-group input {
+    margin-top: 6px;
+    accent-color: var(--vert);
+}
+
+.checkbox-group label {
+    font-weight: normal;
+    font-size: 0.9rem;
+}
+
+.form-submit {
+    width: 100%;
+    border: none;
+    cursor: pointer;
+    font: inherit;
+    font-weight: bold;
+}
+
+.form-disclaimer {
+    color: var(--gris);
+    font-size: 0.82rem;
+    text-align: center;
+    margin-top: 18px;
+}
+
+@media (max-width: 800px) {
+    .eligibility-layout {
+        grid-template-columns: 1fr;
+        gap: 35px;
+    }
+
+    .eligibility-image {
+        height: 220px;
+    }
+
+    .eligibility-form-card {
+        padding: 24px 18px;
+    }
+}
+
+/* =========================
+   PAGE DE SUIVI
+========================= */
+
+.tracking-section {
+    padding: 65px 0;
+    background: var(--fond);
+}
+
+.tracking-container {
+    max-width: 800px;
+}
+
+.tracking-card {
+    background: #ffffff;
+    padding: 35px;
+    border-radius: 12px;
+    box-shadow: var(--ombre);
+    text-align: center;
+}
+
+.tracking-icon {
+    width: 65px;
+    height: 65px;
+    display: grid;
+    place-items: center;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    background: #f5eedb;
+    color: var(--vert);
+    font-size: 2rem;
+}
+
+.tracking-card h2,
+.tracking-result h2 {
+    color: var(--vert);
+    margin-bottom: 15px;
+}
+
+.tracking-card > p {
+    color: var(--gris);
+    margin-bottom: 25px;
+}
+
+.tracking-card form {
+    max-width: 500px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.alert-error {
+    padding: 13px 16px;
+    margin: 20px 0;
+    border-radius: 6px;
+    color: #8a1c1c;
+    background: #fdeaea;
+    border: 1px solid #f3c6c6;
+}
+
+.tracking-result {
+    margin-top: 30px;
+    padding: 30px;
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: var(--ombre);
+}
+
+.status-box {
+    margin: 25px 0;
+    padding: 20px;
+    border-left: 5px solid var(--or);
+    border-radius: 6px;
+    background: #f5eedb;
+}
+
+.status-label,
+.status-value {
+    display: block;
+}
+
+.status-label {
+    color: var(--gris);
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+}
+
+.status-value {
+    color: var(--vert);
+    font-size: 1.25rem;
+}
+
+.result-detail {
+    margin: 15px 0;
+}
+
+@media (max-width: 600px) {
+    .tracking-card,
+    .tracking-result {
+        padding: 22px 18px;
+    }
+}
+
+/* =========================
+   CONNEXION ADMINISTRATEUR
+========================= */
+
+.admin-login-page {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 30px 15px;
+    background:
+        linear-gradient(
+            rgba(24, 61, 50, 0.88),
+            rgba(24, 61, 50, 0.88)
+        ),
+        url("../images/hero-maria-v.jpg") center / cover no-repeat;
+}
+
+.admin-login-card {
+    width: 100%;
+    max-width: 460px;
+    padding: 38px;
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.2);
+}
+
+.admin-logo {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.admin-logo img {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+}
+
+.admin-login-card h1 {
+    color: var(--vert);
+    font-size: 1.8rem;
+    line-height: 1.3;
+    margin-bottom: 12px;
+}
+
+.login-description {
+    color: var(--gris);
+    margin-bottom: 25px;
+}
+
+.back-home {
+    display: block;
+    margin-top: 22px;
+    text-align: center;
+    color: var(--vert);
+}
+
+.back-home:hover {
+    color: var(--or);
+}
+
+@media (max-width: 500px) {
+    .admin-login-card {
+        padding: 28px 20px;
+    }
+}
+
+
+/* TABLEAU DE BORD ADMINISTRATEUR */
+
+.admin-header {
+    background: #183D32;
+    color: #FFFFFF;
+    padding: 20px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.admin-header h1 {
+    color: #C6A45C;
+    margin: 0;
+}
+
+.admin-header p {
+    margin: 5px 0 0;
+}
+
+.admin-header a {
+    color: #FFFFFF;
+    margin-left: 15px;
+}
+
+.admin-dashboard {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.admin-welcome {
+    margin-bottom: 30px;
+}
+
+.admin-stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.stat-card {
+    background: #FFFFFF;
+    border-left: 4px solid #C6A45C;
+    border-radius: 8px;
+    padding: 22px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.07);
+}
+
+.stat-card h3 {
+    color: #183D32;
+    font-size: 16px;
+}
+
+.stat-number {
+    color: #183D32;
+    font-size: 32px;
+    font-weight: bold;
+    margin: 15px 0;
+}
+
+.admin-menu,
+.admin-table-section {
+    background: #FFFFFF;
+    padding: 25px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+}
+
+.admin-links {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 15px;
+}
+
+.admin-links a {
+    background: #183D32;
+    color: #FFFFFF;
+    text-decoration: none;
+    padding: 16px;
+    border-radius: 6px;
+    transition: background 0.2s;
+}
+
+.admin-links a:hover {
+    background: #285C4C;
+}
+
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.admin-table th,
+.admin-table td {
+    padding: 13px;
+    text-align: left;
+    border-bottom: 1px solid #E5E5E5;
+}
+
+.admin-table th {
+    background: #183D32;
+    color: #FFFFFF;
+}
+
+@media (max-width: 900px) {
+    .admin-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .admin-links {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 550px) {
+    .admin-stats,
+    .admin-links {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* GESTION DES VERIFICATIONS */
+
+.verification-filter {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 25px 0;
+}
+
+.verification-filter select,
+.verification-actions textarea {
+    padding: 11px;
+    border: 1px solid #D5D9D6;
+    border-radius: 6px;
+    font: inherit;
+}
+
+.verification-filter button,
+.verification-actions button {
+    background: #183D32;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 6px;
+    padding: 11px 16px;
+    cursor: pointer;
+}
+
+.verification-filter button:hover,
+.verification-actions button:hover {
+    background: #285C4C;
+}
+
+.verification-list {
+    display: grid;
+    gap: 20px;
+}
+
+.verification-card {
+    border: 1px solid #E5E5E5;
+    border-left: 5px solid #C6A45C;
+    border-radius: 8px;
+    padding: 22px;
+    background: #FFFFFF;
+}
+
+.verification-card-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.verification-card-heading h3 {
+    color: #183D32;
+    overflow-wrap: anywhere;
+}
+
+.verification-status {
+    background: #F5EBD2;
+    color: #183D32;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+}
+
+.verification-actions {
+    display: grid;
+    gap: 12px;
+    margin-top: 20px;
+    padding-top: 18px;
+    border-top: 1px solid #E5E5E5;
+}
+
+.verification-actions textarea {
+    width: 100%;
+    box-sizing: border-box;
+    resize: vertical;
+}
+
+.notice-success,
+.notice-error {
+    padding: 14px;
+    border-radius: 6px;
+    margin: 20px 0;
+}
+
+.notice-success {
+    background: #E5F3E8;
+    color: #20552D;
+}
+
+.notice-error {
+    background: #FBE8E7;
+    color: #8B2424;
+}
+
+@media (max-width: 600px) {
+    .verification-card {
+        padding: 15px;
+    }
+
+    .verification-filter {
+        align-items: stretch;
+        flex-direction: column;
+    }
+}
+
+
+/* GESTION DES DEMANDES D'AIDE */
+
+.verification-filter input[type="search"] {
+    padding: 11px;
+    border: 1px solid #D5D9D6;
+    border-radius: 6px;
+    font: inherit;
+    flex: 1;
+    min-width: 180px;
+}
+
+.demande-details {
+    min-width: 230px;
+    max-width: 450px;
+    padding: 12px 0;
+}
+
+.demande-details summary,
+details summary {
+    color: #183D32;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.demande-details p {
+    overflow-wrap: anywhere;
+}
+
+.demande-details select {
+    padding: 10px;
+    border: 1px solid #D5D9D6;
+    border-radius: 6px;
+    font: inherit;
+    width: 100%;
+}
+
+.demande-details .verification-actions {
+    min-width: 220px;
+}
+
+.admin-table td {
+    vertical-align: top;
+}
+
+.admin-table small {
+    overflow-wrap: anywhere;
+}
+
+
+/* GESTION DES DEMANDEURS */
+
+.admin-table td {
+    overflow-wrap: anywhere;
+}
+
+.admin-table td strong {
+    color: #183D32;
+}
+
+.verification-filter a {
+    color: #183D32;
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+.verification-filter a:hover {
+    color: #C6A45C;
+}
+
+.admin-table tbody tr:hover {
+    background: #FAF8F2;
+}
+
+/* ========================================
+   PAGE À PROPOS - MARIA-V
+======================================== */
+
+.about-section,
+.about-values,
+.about-process {
+    padding: 70px 0;
+}
+
+.about-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 45px;
+}
+
+.about-text h2,
+.section-heading h2 {
+    color: #183D32;
+    margin-bottom: 20px;
+}
+
+.about-text p {
+    line-height: 1.8;
+    margin-bottom: 16px;
+}
+
+.about-image img {
+    display: block;
+    width: 100%;
+    max-height: 430px;
+    object-fit: cover;
+    border-radius: 14px;
+}
+
+.about-values {
+    background: #FAF8F2;
+}
+
+.section-heading {
+    max-width: 750px;
+    margin: 0 auto 40px;
+    text-align: center;
+}
+
+.section-heading p {
+    line-height: 1.7;
+}
+
+.values-grid,
+.process-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 25px;
+}
+
+.value-card,
+.process-item {
+    background: #FFFFFF;
+    padding: 30px 24px;
+    border-radius: 12px;
+    border: 1px solid #E8E1D2;
+    box-shadow: 0 5px 18px rgba(24, 61, 50, 0.06);
+}
+
+.value-icon {
+    color: #C6A45C;
+    font-size: 35px;
+    margin-bottom: 15px;
+}
+
+.value-card h3,
+.process-item h3 {
+    color: #183D32;
+    margin-bottom: 12px;
+}
+
+.value-card p,
+.process-item p {
+    line-height: 1.7;
+}
+
+.about-process .step-number {
+    display: inline-flex;
+    width: 42px;
+    height: 42px;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+    border-radius: 50%;
+    background: #183D32;
+    color: #FFFFFF;
+    font-weight: bold;
+}
+
+.about-cta {
+    padding: 65px 20px;
+    background: #183D32;
+    color: #FFFFFF;
+    text-align: center;
+}
+
+.about-cta h2 {
+    color: #FFFFFF;
+    margin-bottom: 18px;
+}
+
+.about-cta p {
+    max-width: 650px;
+    margin: 0 auto 25px;
+    line-height: 1.7;
+}
+
+.about-cta-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+}
+
+.about-cta .btn-secondary {
+    border: 1px solid #C6A45C;
+    color: #FFFFFF;
+    background: transparent;
+}
+
+.about-cta .btn-secondary:hover {
+    background: #C6A45C;
+    color: #183D32;
+}
+
+@media (max-width: 768px) {
+    .about-content {
+        grid-template-columns: 1fr;
+    }
+
+    .values-grid,
+    .process-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .about-section,
+    .about-values,
+    .about-process {
+        padding: 45px 0;
+    }
+}
+
+/* ========================================
+   PAGE ACTIONS - MARIA-V
+======================================== */
+
+.actions-intro {
+    padding: 60px 0;
+    text-align: center;
+}
+
+.actions-intro .container {
+    max-width: 850px;
+}
+
+.actions-intro h2,
+.actions-approach h2 {
+    color: #183D32;
+    margin-bottom: 20px;
+}
+
+.actions-intro p:not(.surtitre) {
+    line-height: 1.8;
+}
+
+.actions-section {
+    padding: 65px 0;
+    background: #FAF8F2;
+}
+
+.actions-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 25px;
+}
+
+.action-card {
+    padding: 30px 25px;
+    background: #FFFFFF;
+    border: 1px solid #E8E1D2;
+    border-radius: 12px;
+    box-shadow: 0 5px 18px rgba(24, 61, 50, 0.06);
+}
+
+.action-icon {
+    margin-bottom: 18px;
+    color: #C6A45C;
+    font-size: 36px;
+}
+
+.action-card h3 {
+    margin-bottom: 14px;
+    color: #183D32;
+}
+
+.action-card p {
+    line-height: 1.75;
+}
+
+.actions-approach {
+    padding: 70px 0;
+}
+
+.actions-approach-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+    gap: 45px;
+}
+
+.actions-approach-content > div:first-child p:not(.surtitre) {
+    line-height: 1.8;
+}
+
+.actions-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.actions-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+}
+
+.actions-step h3 {
+    color: #183D32;
+    margin-bottom: 8px;
+}
+
+.actions-step p {
+    line-height: 1.7;
+}
+
+.actions-step .step-number {
+    display: inline-flex;
+    flex-shrink: 0;
+    width: 42px;
+    height: 42px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #183D32;
+    color: #FFFFFF;
+    font-weight: bold;
+}
+
+.actions-cta {
+    padding: 65px 20px;
+    background: #183D32;
+    color: #FFFFFF;
+    text-align: center;
+}
+
+.actions-cta h2 {
+    margin-bottom: 18px;
+    color: #FFFFFF;
+}
+
+.actions-cta p {
+    margin-bottom: 25px;
+    line-height: 1.7;
+}
+
+.actions-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+}
+
+.actions-cta .btn-secondary {
+    border: 1px solid #C6A45C;
+    background: transparent;
+    color: #FFFFFF;
+}
+
+.actions-cta .btn-secondary:hover {
+    background: #C6A45C;
+    color: #183D32;
+}
+
+@media (max-width: 768px) {
+    .actions-grid,
+    .actions-approach-content {
+        grid-template-columns: 1fr;
+    }
+
+    .actions-intro,
+    .actions-section,
+    .actions-approach {
+        padding: 45px 0;
+    }
+}
+
+/* PAGE DES DEMANDES D'AIDE */
+
+.applications-page {
+    color: #183D32;
+    background: #FAF8F2;
+}
+
+.applications-hero {
+    min-height: 390px;
+    display: flex;
+    align-items: center;
+    padding: 70px 8%;
+    background: linear-gradient(
+        90deg,
+        rgba(24, 61, 50, 0.96),
+        rgba(24, 61, 50, 0.72)
+    ), url("../images/solidarite.jpg") center/cover no-repeat;
+    color: #fff;
+}
+
+.applications-hero-content {
+    max-width: 700px;
+}
+
+.applications-label {
+    display: inline-block;
+    margin-bottom: 15px;
+    color: #C6A45C;
+    font-weight: bold;
+    letter-spacing: 3px;
+}
+
+.applications-hero h1 {
+    margin: 0 0 20px;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    line-height: 1.2;
+}
+
+.applications-hero p {
+    max-width: 650px;
+    margin-bottom: 28px;
+    font-size: 1.05rem;
+    line-height: 1.8;
+}
+
+.applications-btn {
+    display: inline-block;
+    padding: 13px 24px;
+    border: 2px solid #C6A45C;
+    border-radius: 5px;
+    background: #C6A45C;
+    color: #183D32;
+    font-weight: bold;
+    text-decoration: none;
+    transition: 0.3s ease;
+}
+
+.applications-btn:hover {
+    background: transparent;
+    color: #fff;
+}
+
+.applications-section {
+    padding: 70px 8%;
+}
+
+.section-heading {
+    max-width: 700px;
+    margin: 0 auto 40px;
+    text-align: center;
+}
+
+.section-heading > span {
+    color: #A7833D;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.section-heading h2 {
+    margin: 12px 0;
+    font-size: 2rem;
+}
+
+.section-heading p {
+    line-height: 1.7;
+}
+
+.applications-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 25px;
+    max-width: 1100px;
+    margin: auto;
+}
+
+.application-card {
+    padding: 30px;
+    border: 1px solid #e5dfd0;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 5px 18px rgba(24, 61, 50, 0.06);
+}
+
+.application-number {
+    display: flex;
+    width: 48px;
+    height: 48px;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    border-radius: 50%;
+    background: #183D32;
+    color: #C6A45C;
+    font-weight: bold;
+}
+
+.application-card h3 {
+    margin-bottom: 12px;
+    font-size: 1.2rem;
+}
+
+.application-card p {
+    margin: 0;
+    color: #555;
+    line-height: 1.8;
+}
+
+.applications-notice {
+    margin: 0 8% 60px;
+    padding: 28px;
+    border-left: 5px solid #C6A45C;
+    border-radius: 5px;
+    background: #fff;
+}
+
+.applications-notice h2 {
+    margin-top: 0;
+}
+
+.applications-notice p {
+    margin-bottom: 0;
+    line-height: 1.8;
+}
+
+.applications-cta {
+    padding: 60px 8%;
+    background: #183D32;
+    color: #fff;
+    text-align: center;
+}
+
+.applications-cta h2 {
+    margin-top: 0;
+    font-size: 2rem;
+}
+
+.applications-cta p {
+    margin-bottom: 25px;
+    line-height: 1.7;
+}
+
+.applications-buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.applications-btn-outline {
+    background: transparent;
+    color: #fff;
+}
+
+.applications-btn-outline:hover {
+    background: #C6A45C;
+    color: #183D32;
+}
+
+@media (max-width: 768px) {
+    .applications-hero {
+        min-height: 350px;
+        padding: 50px 6%;
+    }
+
+    .applications-section {
+        padding: 50px 6%;
+    }
+
+    .applications-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .applications-notice {
+        margin: 0 6% 40px;
+    }
+
+    .applications-cta {
+        padding: 45px 6%;
+    }
+}
+
+/* PAGE DES DEMANDES D'AIDE */
+
+.applications-page {
+    color: #183D32;
+    background: #FAF8F2;
+}
+
+.applications-hero {
+    min-height: 390px;
+    display: flex;
+    align-items: center;
+    padding: 70px 8%;
+    background: linear-gradient(
+        90deg,
+        rgba(24, 61, 50, 0.96),
+        rgba(24, 61, 50, 0.72)
+    ), url("../images/solidarite.jpg") center/cover no-repeat;
+    color: #fff;
+}
+
+.applications-hero-content {
+    max-width: 700px;
+}
+
+.applications-label {
+    display: inline-block;
+    margin-bottom: 15px;
+    color: #C6A45C;
+    font-weight: bold;
+    letter-spacing: 3px;
+}
+
+.applications-hero h1 {
+    margin: 0 0 20px;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    line-height: 1.2;
+}
+
+.applications-hero p {
+    max-width: 650px;
+    margin-bottom: 28px;
+    font-size: 1.05rem;
+    line-height: 1.8;
+}
+
+.applications-btn {
+    display: inline-block;
+    padding: 13px 24px;
+    border: 2px solid #C6A45C;
+    border-radius: 5px;
+    background: #C6A45C;
+    color: #183D32;
+    font-weight: bold;
+    text-decoration: none;
+    transition: 0.3s ease;
+}
+
+.applications-btn:hover {
+    background: transparent;
+    color: #fff;
+}
+
+.applications-section {
+    padding: 70px 8%;
+}
+
+.section-heading {
+    max-width: 700px;
+    margin: 0 auto 40px;
+    text-align: center;
+}
+
+.section-heading > span {
+    color: #A7833D;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.section-heading h2 {
+    margin: 12px 0;
+    font-size: 2rem;
+}
+
+.section-heading p {
+    line-height: 1.7;
+}
+
+.applications-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 25px;
+    max-width: 1100px;
+    margin: auto;
+}
+
+.application-card {
+    padding: 30px;
+    border: 1px solid #e5dfd0;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 5px 18px rgba(24, 61, 50, 0.06);
+}
+
+.application-number {
+    display: flex;
+    width: 48px;
+    height: 48px;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    border-radius: 50%;
+    background: #183D32;
+    color: #C6A45C;
+    font-weight: bold;
+}
+
+.application-card h3 {
+    margin-bottom: 12px;
+    font-size: 1.2rem;
+}
+
+.application-card p {
+    margin: 0;
+    color: #555;
+    line-height: 1.8;
+}
+
+.applications-notice {
+    margin: 0 8% 60px;
+    padding: 28px;
+    border-left: 5px solid #C6A45C;
+    border-radius: 5px;
+    background: #fff;
+}
+
+.applications-notice h2 {
+    margin-top: 0;
+}
+
+.applications-notice p {
+    margin-bottom: 0;
+    line-height: 1.8;
+}
+
+.applications-cta {
+    padding: 60px 8%;
+    background: #183D32;
+    color: #fff;
+    text-align: center;
+}
+
+.applications-cta h2 {
+    margin-top: 0;
+    font-size: 2rem;
+}
+
+.applications-cta p {
+    margin-bottom: 25px;
+    line-height: 1.7;
+}
+
+.applications-buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.applications-btn-outline {
+    background: transparent;
+    color: #fff;
+}
+
+.applications-btn-outline:hover {
+    background: #C6A45C;
+    color: #183D32;
+}
+
+@media (max-width: 768px) {
+    .applications-hero {
+        min-height: 350px;
+        padding: 50px 6%;
+    }
+
+    .applications-section {
+        padding: 50px 6%;
+    }
+
+    .applications-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .applications-notice {
+        margin: 0 6% 40px;
+    }
+
+    .applications-cta {
+        padding: 45px 6%;
+    }
+}
+
+/* PAGE CONTACT - MARIA-V */
+
+.contact-page {
+    background: #FAF8F2;
+    color: #183D32;
+}
+
+.contact-hero {
+    padding: 75px 8%;
+    background: linear-gradient(
+        rgba(24, 61, 50, 0.92),
+        rgba(24, 61, 50, 0.82)
+    ), url("../images/solidarite.jpg") center/cover no-repeat;
+    color: #fff;
+    text-align: center;
+}
+
+.contact-hero-content {
+    max-width: 750px;
+    margin: auto;
+}
+
+.contact-label {
+    display: inline-block;
+    margin-bottom: 12px;
+    color: #C6A45C;
+    font-weight: bold;
+    letter-spacing: 3px;
+}
+
+.contact-hero h1 {
+    margin: 0 0 18px;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+}
+
+.contact-hero p {
+    margin: auto;
+    max-width: 650px;
+    line-height: 1.8;
+}
+
+.contact-section {
+    max-width: 950px;
+    margin: auto;
+    padding: 65px 25px;
+}
+
+.contact-intro {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.contact-intro h2 {
+    font-size: 2rem;
+}
+
+.contact-intro p {
+    color: #555;
+    line-height: 1.8;
+}
+
+.contact-form {
+    padding: 35px;
+    border: 1px solid #e5dfd0;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 8px 25px rgba(24, 61, 50, 0.07);
+}
+
+.contact-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+}
+
+.contact-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.contact-field-full {
+    grid-column: 1 / -1;
+}
+
+.contact-field label {
+    font-weight: 600;
+}
+
+.contact-field input,
+.contact-field textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 13px 14px;
+    border: 1px solid #d5d5d5;
+    border-radius: 5px;
+    background: #fff;
+    color: #183D32;
+    font: inherit;
+}
+
+.contact-field input:focus,
+.contact-field textarea:focus {
+    outline: 2px solid #C6A45C;
+    border-color: #183D32;
+}
+
+.contact-field textarea {
+    resize: vertical;
+}
+
+.contact-required {
+    margin: 20px 0;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.contact-submit {
+    padding: 14px 25px;
+    border: 2px solid #C6A45C;
+    border-radius: 5px;
+    background: #183D32;
+    color: #fff;
+    font: inherit;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.contact-submit:hover {
+    background: #C6A45C;
+    color: #183D32;
+}
+
+.contact-alert {
+    margin-bottom: 25px;
+    padding: 16px 20px;
+    border-radius: 6px;
+    line-height: 1.6;
+}
+
+.contact-success {
+    border: 1px solid #8ab69c;
+    background: #eaf6ee;
+    color: #205a36;
+}
+
+.contact-error {
+    border: 1px solid #d99a9a;
+    background: #fff0f0;
+    color: #8b2020;
+}
+
+.contact-error ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+@media (max-width: 650px) {
+    .contact-hero {
+        padding: 55px 6%;
+    }
+
+    .contact-section {
+        padding: 45px 6%;
+    }
+
+    .contact-form {
+        padding: 22px;
+    }
+
+    .contact-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-field-full {
+        grid-column: auto;
+    }
+
+    .contact-submit {
+        width: 100%;
+    }
+}
+
+.contact-page {
+    background-color: #FAF8F2 !important;
+}
+
+.contact-hero {
+    background-color: #183D32 !important;
+    color: white !important;
+    padding: 60px 20px !important;
+    text-align: center !important;
+}
+
+.contact-form {
+    max-width: 900px !important;
+    margin: 30px auto !important;
+    padding: 30px !important;
+    background: white !important;
+    border-radius: 10px !important;
+}
+
+.contact-submit {
+    background: #183D32 !important;
+    color: white !important;
+    padding: 12px 25px !important;
+    border: 2px solid #C6A45C !important;
+    cursor: pointer !important;
+}
+
+
+/* CORRECTIF FORMULAIRE DE CONTACT MARIA-V */
+
+.contact-page .contact-section {
+    max-width: 950px;
+    margin: 0 auto;
+    padding: 60px 25px;
+}
+
+.contact-page .contact-form {
+    display: block;
+    width: 100%;
+    max-width: 900px;
+    box-sizing: border-box;
+    margin: 30px auto;
+    padding: 35px;
+    background-color: #ffffff;
+    border: 1px solid #e5dfd0;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(24, 61, 50, 0.08);
+}
+
+.contact-page .contact-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+}
+
+.contact-page .contact-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+}
+
+.contact-page .contact-field-full {
+    grid-column: 1 / -1;
+}
+
+.contact-page .contact-field label {
+    display: block;
+    color: #183D32;
+    font-weight: 600;
+}
+
+.contact-page .contact-field input,
+.contact-page .contact-field textarea {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    padding: 13px 14px;
+    border: 1px solid #cfcfcf;
+    border-radius: 5px;
+    background: #ffffff;
+    color: #183D32;
+    font-family: inherit;
+    font-size: 1rem;
+}
+
+.contact-page .contact-field input:focus,
+.contact-page .contact-field textarea:focus {
+    outline: 2px solid #C6A45C;
+    outline-offset: 1px;
+    border-color: #183D32;
+}
+
+.contact-page .contact-field textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+
+.contact-page .contact-required {
+    margin: 20px 0;
+    color: #555555;
+    font-size: 0.9rem;
+}
+
+.contact-page .contact-submit {
+    display: inline-block;
+    padding: 14px 25px;
+    border: 2px solid #C6A45C;
+    border-radius: 5px;
+    background-color: #183D32;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.contact-page .contact-submit:hover {
+    background-color: #C6A45C;
+    color: #183D32;
+}
+
+.contact-page .contact-alert {
+    margin: 20px 0;
+    padding: 16px 20px;
+    border-radius: 6px;
+}
+
+.contact-page .contact-success {
+    background: #eaf6ee;
+    color: #205a36;
+    border: 1px solid #8ab69c;
+}
+
+.contact-page .contact-error {
+    background: #fff0f0;
+    color: #8b2020;
+    border: 1px solid #d99a9a;
+}
+
+@media (max-width: 650px) {
+    .contact-page .contact-section {
+        padding: 40px 16px;
+    }
+
+    .contact-page .contact-form {
+        padding: 20px;
+    }
+
+    .contact-page .contact-form-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .contact-page .contact-field-full {
+        grid-column: auto;
+    }
+
+    .contact-page .contact-submit {
+        width: 100%;
+    }
+}
+
+/* ===== CORRECTION FORMULAIRE CONTACT MARIA-V ===== */
+
+main.contact-page {
+    background: #FAF8F2;
+    color: #183D32;
+}
+
+main.contact-page .contact-section {
+    display: block;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 60px 25px;
+    box-sizing: border-box;
+}
+
+main.contact-page .contact-intro {
+    display: block;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+main.contact-page form.contact-form {
+    display: block;
+    width: 100%;
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 35px;
+    box-sizing: border-box;
+    background: #fff;
+    border: 1px solid #e5dfd0;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(24, 61, 50, 0.08);
+}
+
+main.contact-page .contact-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+}
+
+main.contact-page .contact-field {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    gap: 8px;
+}
+
+main.contact-page .contact-field-full {
+    grid-column: 1 / -1;
+}
+
+main.contact-page .contact-field label {
+    display: block;
+    margin: 0;
+    color: #183D32;
+    font-weight: 600;
+}
+
+main.contact-page .contact-field input,
+main.contact-page .contact-field textarea {
+    display: block;
+    width: 100%;
+    min-height: 46px;
+    margin: 0;
+    padding: 12px 14px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: #fff;
+    color: #183D32;
+    font-family: inherit;
+    font-size: 16px;
+}
+
+main.contact-page .contact-field textarea {
+    min-height: 160px;
+    resize: vertical;
+}
+
+main.contact-page .contact-field input:focus,
+main.contact-page .contact-field textarea:focus {
+    outline: 2px solid #C6A45C;
+    outline-offset: 1px;
+    border-color: #183D32;
+}
+
+main.contact-page .contact-required {
+    margin: 20px 0;
+    color: #555;
+    font-size: 14px;
+}
+
+main.contact-page button.contact-submit {
+    display: inline-block;
+    width: auto;
+    padding: 14px 25px;
+    border: 2px solid #C6A45C;
+    border-radius: 5px;
+    background: #183D32;
+    color: #fff;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+main.contact-page button.contact-submit:hover {
+    background: #C6A45C;
+    color: #183D32;
+}
+
+main.contact-page .contact-alert {
+    display: block;
+    margin: 20px 0;
+    padding: 16px 20px;
+    border-radius: 6px;
+}
+
+main.contact-page .contact-success {
+    background: #eaf6ee;
+    color: #205a36;
+    border: 1px solid #8ab69c;
+}
+
+main.contact-page .contact-error {
+    background: #fff0f0;
+    color: #8b2020;
+    border: 1px solid #d99a9a;
+}
+
+@media (max-width: 650px) {
+    main.contact-page .contact-section {
+        padding: 40px 16px;
+    }
+
+    main.contact-page form.contact-form {
+        padding: 20px;
+    }
+
+    main.contact-page .contact-form-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    main.contact-page .contact-field-full {
+        grid-column: auto;
+    }
+
+    main.contact-page button.contact-submit {
+        width: 100%;
+    }
+}
+
+/* ===== FIN CORRECTION CONTACT ===== */
+
+
+/* PAGE MENTIONS LÉGALES - MARIA-V */
+
+.legal-page {
+    background: #FAF8F2;
+    color: #183D32;
+}
+
+.legal-hero {
+    padding: 65px 8%;
+    background: linear-gradient(
+        rgba(24, 61, 50, 0.94),
+        rgba(24, 61, 50, 0.82)
+    );
+    color: #fff;
+    text-align: center;
+}
+
+.legal-hero-content {
+    max-width: 800px;
+    margin: auto;
+}
+
+.legal-label {
+    display: inline-block;
+    margin-bottom: 12px;
+    color: #C6A45C;
+    font-weight: bold;
+    letter-spacing: 3px;
+}
+
+.legal-hero h1 {
+    margin: 0 0 18px;
+    font-size: clamp(2rem, 5vw, 3rem);
+}
+
+.legal-hero p {
+    margin: auto;
+    max-width: 650px;
+    line-height: 1.8;
+}
+
+.legal-content {
+    max-width: 1000px;
+    margin: auto;
+    padding: 55px 25px;
+}
+
+.legal-card {
+    margin-bottom: 25px;
+    padding: 28px;
+    border: 1px solid #e5dfd0;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 5px 18px rgba(24, 61, 50, 0.05);
+}
+
+.legal-card h2 {
+    margin-top: 0;
+    margin-bottom: 18px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #C6A45C;
+    font-size: 1.35rem;
+}
+
+.legal-card p,
+.legal-card li {
+    color: #4d4d4d;
+    line-height: 1.8;
+}
+
+.legal-card ul {
+    padding-left: 22px;
+}
+
+.legal-card li {
+    margin-bottom: 8px;
+    overflow-wrap: anywhere;
+}
+
+.legal-card strong {
+    color: #183D32;
+}
+
+.legal-contact {
+    padding: 35px 25px;
+    border-radius: 10px;
+    background: #183D32;
+    color: #fff;
+    text-align: center;
+}
+
+.legal-contact h2 {
+    margin-top: 0;
+}
+
+.legal-contact p {
+    margin-bottom: 25px;
+    line-height: 1.8;
+}
+
+.legal-button {
+    display: inline-block;
+    padding: 13px 24px;
+    border: 2px solid #C6A45C;
+    border-radius: 5px;
+    background: #C6A45C;
+    color: #183D32;
+    font-weight: bold;
+    text-decoration: none;
+    transition: 0.3s ease;
+}
+
+.legal-button:hover {
+    background: transparent;
+    color: #fff;
+}
+
+@media (max-width: 650px) {
+    .legal-hero {
+        padding: 45px 6%;
+    }
+
+    .legal-content {
+        padding: 35px 16px;
+    }
+
+    .legal-card {
+        padding: 20px;
+    }
+
+    .legal-card h2 {
+        font-size: 1.2rem;
+    }
+}

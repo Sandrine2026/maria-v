@@ -1,0 +1,18 @@
+/* Correctifs de navigation MARIA-V */
+.site-header { position: sticky; top: 0; z-index: 1000; }
+.site-header .navbar { display:flex; align-items:center; justify-content:space-between; gap:1rem; }
+.site-header .nav-menu { display:flex; align-items:center; gap:1rem; flex-wrap:wrap; }
+.site-header .nav-menu a { text-decoration:none; }
+.site-header .nav-menu a.active { font-weight:700; }
+.site-header .nav-cta { background:#C6A45C; color:#183D32; padding:.65rem .9rem; border-radius:.45rem; font-weight:700; }
+.language-selector { display:flex; gap:.4rem; flex-wrap:wrap; }
+.language-selector a[aria-current="true"] { font-weight:700; text-decoration:underline; }
+.nav-toggle { display:none; border:0; background:transparent; font-size:1.6rem; cursor:pointer; }
+@media (max-width: 900px) {
+ .site-header .navbar { flex-wrap:wrap; }
+ .nav-toggle { display:block; margin-left:auto; }
+ .site-header .nav-menu { display:none; flex-basis:100%; flex-direction:column; align-items:stretch; gap:.35rem; }
+ .site-header .nav-menu.is-open { display:flex; }
+ .site-header .nav-menu a { padding:.55rem .25rem; }
+ .language-selector { margin-left:auto; }
+}

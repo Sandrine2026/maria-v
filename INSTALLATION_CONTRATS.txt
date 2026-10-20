@@ -1,0 +1,21 @@
+MARIA-V — Installation de la gestion des contrats et des apports
+
+IMPORTANT
+- Faire une sauvegarde de la base avant toute opération.
+- Cette fonctionnalité ne modifie pas les tables existantes.
+- Elle ne met en place aucun paiement en ligne.
+
+1. Copier les fichiers du dossier maria-v dans une copie de votre projet, en fusionnant les fichiers sans supprimer les autres pages.
+2. Dans phpMyAdmin, sélectionner la base existante `maria-v`.
+3. Ouvrir l'onglet SQL et exécuter uniquement le contenu du fichier :
+   database/migration_contrats_aide.sql
+   Cette migration crée une seule nouvelle table : contrats_aide.
+4. Se connecter à l'administration avec un compte ayant le rôle gestionnaire ou super_admin.
+5. Ouvrir Tableau de bord > Contrats et apports.
+6. Choisir une demande d'aide dont le statut est « acceptee », saisir le montant de l'aide et le pourcentage d'apport, puis enregistrer.
+
+Le montant d'apport est calculé ainsi : montant de l'aide × pourcentage / 100.
+L'état de l'apport est un suivi administratif manuel. Aucun paiement n'est collecté sur le site.
+La page permet un contrat par demande acceptée. Les statuts disponibles sont préparé, envoyé, signé, clôturé ; et pour l'apport : pas encore dû, en attente, partiellement reçu, reçu (confirmé manuellement), dispensé.
+
+Cette archive n'a pas pu être testée contre la base MySQL de votre ordinateur depuis cet environnement. Après la migration, tester d'abord avec une demande fictive acceptée.
