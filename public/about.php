@@ -62,7 +62,7 @@ require_once __DIR__ . '/../includes/navbar.php';
 
                 <div class="about-image">
                     <img
-                        src="/maria-v/assets/images/solidarite.jpg"
+                        src="/maria-v/assets/images/about-fondation.jpg"
                         alt="Illustration de solidarité et d'entraide"
                         loading="lazy"
                     >
