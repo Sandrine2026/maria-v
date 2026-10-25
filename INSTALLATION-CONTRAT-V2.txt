@@ -1,0 +1,31 @@
+FONDATION MARIA - V — SAUVEGARDE DES CORRECTIONS DU CONTRAT (V2)
+
+Cette mise à jour ajoute la sauvegarde des champs modifiés dans le document de convention.
+
+AVANT TOUTE MODIFICATION
+1. Faites une copie complète du dossier maria-v.
+2. Exportez la base maria-v depuis phpMyAdmin.
+3. Ne réimportez pas le fichier SQL principal dans une base existante.
+
+INSTALLATION
+1. Copiez les fichiers du dossier maria-v de cette archive dans votre projet local, en fusionnant les dossiers.
+2. Si vous n'avez pas encore créé la table contrats_aide, exécutez d'abord database/migration_contrats_aide.sql dans phpMyAdmin.
+3. Exécutez ensuite UNE SEULE FOIS database/migration_contrat_document_data.sql dans phpMyAdmin.
+   Cette migration ajoute la colonne document_data à contrats_aide. Ne l'exécutez pas deux fois.
+4. Connectez-vous à l'administration, ouvrez Contrats et apports, choisissez une demande acceptée et enregistrez le contrat.
+5. Cliquez sur Préparer le document. Modifiez les champs jaunes puis cliquez sur « Enregistrer les corrections ». Un message de confirmation du navigateur / de la page doit être vérifié; rechargez la page pour confirmer que les champs restent présents.
+6. Utilisez ensuite « Imprimer / Enregistrer en PDF ».
+
+LIMITES DE CETTE VERSION
+- Les champs modifiés sont enregistrés dans la table contrats_aide, dans document_data, et restent associés au dossier concerné.
+- Les informations du bénéficiaire affichées dans l'en-tête sont tirées du dossier existant. Les champs non présents dans la base doivent être complétés par l'administrateur.
+- L'envoi automatique par e-mail et la signature électronique ne sont pas implémentés dans cette version.
+- Le document reste un modèle de travail : faire valider les clauses, notamment toute contribution financière, avant de le faire signer.
+- Cette archive n'a pas pu être testée contre la base de données locale de l'utilisateur. Testez d'abord sur une copie de la base.
+
+MISE À JOUR DU 24/10/2026
+- Le document Word modèle de la Fondation est conservé dans documents/Convention_aide_Fondation_MARIA - V_modele.docx.
+- La page de préparation du contrat inclut une liste de contrôles préalables à la signature et des formulations complétées à partir du modèle fourni.
+- La configuration d'e-mail est préparée sans identifiants fictifs. L'envoi SMTP automatique et le retour sécurisé du contrat signé ne sont pas encore activés ; consulter CONFIGURATION-EMAIL-CONTRAT.txt.
+- Le cachet officiel et les coordonnées légales doivent être ajoutés uniquement après vérification. Ne pas utiliser de numéro d'enregistrement fictif.
+- Faire une sauvegarde des fichiers et exporter la base existante avant installation. Ne pas réimporter le SQL principal dans une base contenant déjà des données.

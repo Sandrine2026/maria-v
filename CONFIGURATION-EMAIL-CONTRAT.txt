@@ -1,0 +1,20 @@
+FONDATION MARIA - V — CONFIGURATION E-MAIL DU CONTRAT
+
+Cette archive conserve les fichiers de configuration sans adresse e-mail ni mot de passe fictifs.
+Le fichier config/mail.php lit les variables d'environnement suivantes :
+- MARIA_V_MAIL_ENABLED=false (laisser false jusqu'à la configuration complète)
+- MARIA_V_SMTP_HOST=serveur SMTP fourni par l'hébergeur de la boîte mail
+- MARIA_V_SMTP_PORT=587
+- MARIA_V_SMTP_ENCRYPTION=tls
+- MARIA_V_SMTP_USERNAME=adresse e-mail complète
+- MARIA_V_SMTP_PASSWORD=mot de passe SMTP ou mot de passe d'application
+- MARIA_V_FROM_EMAIL=www.sandrine93@gmail.com (adresse provisoire communiquée)
+- MARIA_V_FROM_NAME=Fondation MARIA - V
+
+IMPORTANT : aucun envoi SMTP automatique n'est activé dans cette version. Le formulaire de contrat permet encore d'enregistrer les corrections et d'imprimer/enregistrer le document en PDF depuis le navigateur. Il faut intégrer et tester une bibliothèque SMTP (par exemple PHPMailer installée via Composer), puis produire le PDF côté serveur et ajouter le bouton d'envoi sécurisé avec journalisation avant d'activer MARIA_V_MAIL_ENABLED. Ne pas marquer un contrat « envoyé » si le serveur SMTP n'a pas confirmé l'envoi.
+
+Ne communiquez pas le mot de passe SMTP dans un chat. Configurez-le directement dans les variables d'environnement du serveur. Sur WampServer, utilisez un fichier local non inclus dans le ZIP et exclu du dépôt/partage.
+
+AVANT TOUTE SIGNATURE : remplacer les champs d'identité, d'adresse, d'enregistrement et de droit applicable par les informations officielles vérifiées. L'article sur la contribution éventuelle reste soumis à validation juridique préalable. Aucun paiement n'est collecté sur le site.
+
+Coordonnées communiquées pour le contrat : Fondation MARIA - V ; 1 avenue Marcel Pagnol, 13090 Aix-en-Provence, France ; SIREN 783 227 176 ; SIRET 783 227 176 00022 ; TVA intracommunautaire FR03 783 227 176.

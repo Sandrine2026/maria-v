@@ -1,4 +1,4 @@
-MARIA-V — Installation de la gestion des contrats et des apports
+MARIA - V — Installation de la gestion des contrats et des apports
 
 IMPORTANT
 - Faire une sauvegarde de la base avant toute opération.

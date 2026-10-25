@@ -26,13 +26,15 @@ require_once __DIR__ . '/../includes/navbar.php'; ?>
         <article class="legal-card">
             <h2>1. Éditeur du site</h2>
             <p>
-                Le présent site est édité par la fondation MARIA-V.
+                Le présent site est édité par la Fondation MARIA - V.
             </p>
             <ul>
-                <li><strong>Nom de l'organisme :</strong> MARIA-V</li>
+                <li><strong>Dénomination :</strong> Fondation MARIA - V</li>
                 <li><strong>Forme juridique :</strong> à compléter</li>
-                <li><strong>Adresse officielle :</strong> à compléter</li>
-                <li><strong>Numéro d'enregistrement :</strong> à compléter, si applicable</li>
+                <li><strong>Adresse du siège :</strong> 1 avenue Marcel Pagnol, 13090 Aix-en-Provence, France</li>
+                <li><strong>SIREN :</strong> 783 227 176</li>
+                <li><strong>SIRET du siège :</strong> 783 227 176 00022</li>
+                <li><strong>TVA intracommunautaire :</strong> FR03 783 227 176</li>
                 <li><strong>Adresse e-mail officielle :</strong> à compléter</li>
                 <li><strong>Responsable de publication :</strong> à compléter</li>
             </ul>

@@ -1,0 +1,20 @@
+FONDATION MARIA - V — ÉTAT DE LA VERSION DE REMISE
+
+Cette archive est une correction du projet existant. Elle conserve les fichiers du projet et ne modifie pas automatiquement la base de données.
+
+Corrections apportées dans cette passe :
+- Validation côté serveur du pourcentage d'apport entre 3 % et 10 % dans admin/contrats.php.
+- Bornes correspondantes dans le formulaire et calcul d'aperçu du montant.
+- Nettoyage des antislashs d'affichage éventuels dans l'adresse e-mail des bénéficiaires (sans modifier les données enregistrées).
+- Lien direct « Préparer le contrat » depuis la liste des contrats.
+- Coordonnées de Fondation MARIA - V présentes par défaut dans le document de contrat : 1 avenue Marcel Pagnol, 13090 Aix-en-Provence, France ; SIREN 783 227 176 ; SIRET 783 227 176 00022 ; TVA FR03 783 227 176.
+
+À FAIRE AVANT LA REMISE / UTILISATION RÉELLE :
+1. Faire une copie du dossier et exporter la base maria-v dans phpMyAdmin.
+2. Si la table contrats_aide n'existe pas, examiner puis exécuter database/migration_contrats_aide.sql. Si document_data manque, exécuter une seule fois database/migration_contrat_document_data.sql. Ne pas réimporter le SQL principal dans une base qui contient déjà des données.
+3. Tester sur votre WampServer avec votre base actuelle et vérifier les parcours demande, validation, contrat, langues et administration.
+4. L'envoi SMTP, la génération PDF côté serveur et le portail sécurisé de retour du contrat signé ne sont PAS implémentés ni testés dans cette version. La page contrat permet d'enregistrer les corrections puis d'imprimer / enregistrer en PDF depuis le navigateur. Ne pas marquer un contrat envoyé si aucun e-mail n'a été réellement envoyé.
+5. Le contrat reste un modèle à faire vérifier juridiquement. Les coordonnées d'identité communiquées doivent être contrôlées officiellement. Toute contribution de 3 à 10 % doit être revue juridiquement avant de l'exiger. Aucun paiement en ligne n'est prévu.
+6. Le cachet et la signature officiels doivent être apposés par les personnes autorisées ; aucun cachet fictif ne doit être utilisé.
+
+Adresse e-mail provisoire communiquée : www.sandrine93@gmail.com. Cette adresse seule ne permet pas l'envoi SMTP. Il faudra configurer les identifiants SMTP localement, sans les partager dans un chat ni dans le ZIP.
