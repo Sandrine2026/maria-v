@@ -1,0 +1,16 @@
+<?php
+/**
+ * Exemple de configuration locale Gmail pour WampServer.
+ * Copiez ce fichier en mail.local.php et renseignez les valeurs sur VOTRE ordinateur.
+ * Ne partagez jamais mail.local.php : il contient le mot de passe d'application.
+ */
+return [
+    'enabled' => false, // passez à true seulement après avoir vérifié l'adresse et le SMTP
+    'host' => 'smtp.gmail.com',
+    'port' => 587,
+    'encryption' => 'tls',
+    'username' => 'VOTRE_ADRESSE_GMAIL_EXACTE',
+    'password' => 'VOTRE_MOT_DE_PASSE_APPLICATION_GMAIL',
+    'from_email' => 'VOTRE_ADRESSE_GMAIL_EXACTE',
+    'from_name' => 'Fondation MARIA-V',
+];

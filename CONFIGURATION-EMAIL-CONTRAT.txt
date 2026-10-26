@@ -1,20 +1,23 @@
-FONDATION MARIA - V — CONFIGURATION E-MAIL DU CONTRAT
+FONDATION MARIA-V — CONFIGURATION E-MAIL DU CONTRAT
 
-Cette archive conserve les fichiers de configuration sans adresse e-mail ni mot de passe fictifs.
-Le fichier config/mail.php lit les variables d'environnement suivantes :
-- MARIA_V_MAIL_ENABLED=false (laisser false jusqu'à la configuration complète)
-- MARIA_V_SMTP_HOST=serveur SMTP fourni par l'hébergeur de la boîte mail
-- MARIA_V_SMTP_PORT=587
-- MARIA_V_SMTP_ENCRYPTION=tls
-- MARIA_V_SMTP_USERNAME=adresse e-mail complète
-- MARIA_V_SMTP_PASSWORD=mot de passe SMTP ou mot de passe d'application
-- MARIA_V_FROM_EMAIL=www.sandrine93@gmail.com (adresse provisoire communiquée)
-- MARIA_V_FROM_NAME=Fondation MARIA - V
+L'envoi SMTP par PHPMailer est maintenant intégré dans admin/contrats.php. L'administrateur doit d'abord enregistrer le contrat, préparer/imprimer le document en PDF depuis « Préparer le contrat », puis sélectionner le PDF dans le formulaire « Envoyer le contrat par e-mail ».
 
-IMPORTANT : aucun envoi SMTP automatique n'est activé dans cette version. Le formulaire de contrat permet encore d'enregistrer les corrections et d'imprimer/enregistrer le document en PDF depuis le navigateur. Il faut intégrer et tester une bibliothèque SMTP (par exemple PHPMailer installée via Composer), puis produire le PDF côté serveur et ajouter le bouton d'envoi sécurisé avec journalisation avant d'activer MARIA_V_MAIL_ENABLED. Ne pas marquer un contrat « envoyé » si le serveur SMTP n'a pas confirmé l'envoi.
+CONFIGURATION LOCALE (WampServer)
+1. Dans C:\wamp64\www\maria-v\config\, copiez mail.local.php.example et renommez la copie mail.local.php.
+2. Ouvrez mail.local.php dans un éditeur de texte.
+3. Renseignez l'adresse Gmail exacte dans username et from_email. L'adresse doit être une véritable adresse Gmail valide ; vérifiez l'orthographe dans votre compte Google.
+4. Renseignez le mot de passe d'application Gmail dans password. Ne l'envoyez jamais dans un chat et ne partagez jamais mail.local.php.
+5. Laissez enabled à false jusqu'à ce que toutes les valeurs soient vérifiées. Passez ensuite enabled à true pour un test contrôlé.
+6. Dans l'espace admin, ouvrez Gestion des contrats, sélectionnez la demande acceptée, enregistrez le contrat, préparez le PDF, puis envoyez-le au destinataire affiché. Testez d'abord avec une demande et une boîte e-mail que vous contrôlez.
 
-Ne communiquez pas le mot de passe SMTP dans un chat. Configurez-le directement dans les variables d'environnement du serveur. Sur WampServer, utilisez un fichier local non inclus dans le ZIP et exclu du dépôt/partage.
+Paramètres Gmail : smtp.gmail.com, port 587, TLS/STARTTLS, authentification avec l'adresse Gmail complète et le mot de passe d'application (pas le mot de passe habituel du compte).
 
-AVANT TOUTE SIGNATURE : remplacer les champs d'identité, d'adresse, d'enregistrement et de droit applicable par les informations officielles vérifiées. L'article sur la contribution éventuelle reste soumis à validation juridique préalable. Aucun paiement n'est collecté sur le site.
+Le formulaire accepte uniquement un fichier dont le type MIME est application/pdf, avec une limite de 10 Mo. Le statut du contrat devient « Envoyé au bénéficiaire » seulement si PHPMailer reçoit une confirmation de succès SMTP. En cas d'échec, le statut n'est pas changé et les détails techniques sont écrits dans le journal PHP du serveur ; le message affiché reste générique.
 
-Coordonnées communiquées pour le contrat : Fondation MARIA - V ; 1 avenue Marcel Pagnol, 13090 Aix-en-Provence, France ; SIREN 783 227 176 ; SIRET 783 227 176 00022 ; TVA intracommunautaire FR03 783 227 176.
+SÉCURITÉ
+- Ne mettez jamais de vrai mot de passe dans mail.php, dans un ZIP ou dans un dépôt Git.
+- mail.local.php est volontairement absent de l'archive ; créez-le localement à partir du modèle.
+- L'adresse provisoire communiquée « www.sandrine93@gmail.com » doit être vérifiée dans le compte Google : le préfixe « www. » est inhabituel. N'activez pas l'envoi tant que l'adresse exacte n'est pas confirmée.
+- La réception par le serveur SMTP ne garantit pas la livraison finale en boîte de réception.
+- Aucun paiement en ligne n'est ajouté. La contribution mentionnée dans le contrat doit faire l'objet d'une validation juridique indépendante avant d'être demandée au bénéficiaire.
+- Les informations d'identité et d'enregistrement de la Fondation doivent être vérifiées avant toute signature ou envoi contractuel.

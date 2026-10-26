@@ -2,3 +2,7 @@ Options -Indexes
 <FilesMatch "^(\.env|.*\.(sql|log|txt))$">
   Require all denied
 </FilesMatch>
+
+<Files "mail.local.php">
+  Require all denied
+</Files>

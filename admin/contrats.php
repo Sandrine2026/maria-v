@@ -41,7 +41,71 @@ try {
             throw new RuntimeException('Un contrat ne peut être préparé que pour une demande acceptée.');
         }
 
-        if ($action === 'enregistrer') {
+        if ($action === 'envoyer_pdf') {
+            // L'envoi ne peut se faire qu'après création du contrat et avec un PDF fourni par l'administrateur.
+            $qContrat = $pdo->prepare('SELECT id, numero_contrat FROM contrats_aide WHERE demande_id = :id LIMIT 1');
+            $qContrat->execute(['id' => $demandeId]);
+            $contratMail = $qContrat->fetch(PDO::FETCH_ASSOC);
+            if (!$contratMail) {
+                throw new RuntimeException('Enregistre d’abord le contrat avant de l’envoyer.');
+            }
+            $destinataire = trim((string)($demandeSelectionnee['email'] ?? ''));
+            if (!filter_var($destinataire, FILTER_VALIDATE_EMAIL)) {
+                throw new RuntimeException('L’adresse e-mail du bénéficiaire est absente ou invalide. Corrige-la dans le dossier avant l’envoi.');
+            }
+            if (!isset($_FILES['contrat_pdf']) || !is_array($_FILES['contrat_pdf'])) {
+                throw new RuntimeException('Sélectionne le PDF du contrat à envoyer.');
+            }
+            $fichier = $_FILES['contrat_pdf'];
+            if (($fichier['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK || !is_uploaded_file((string)($fichier['tmp_name'] ?? ''))) {
+                throw new RuntimeException('Le téléversement du PDF a échoué. Choisis de nouveau le fichier PDF.');
+            }
+            if ((int)$fichier['size'] < 1 || (int)$fichier['size'] > 10 * 1024 * 1024) {
+                throw new RuntimeException('Le PDF doit peser moins de 10 Mo.');
+            }
+            $mime = (new finfo(FILEINFO_MIME_TYPE))->file((string)$fichier['tmp_name']);
+            if ($mime !== 'application/pdf') {
+                throw new RuntimeException('Le fichier choisi ne semble pas être un PDF valide.');
+            }
+            $mailConfig = require __DIR__ . '/../config/mail.php';
+            if (empty($mailConfig['enabled'])) {
+                throw new RuntimeException('L’envoi e-mail n’est pas encore activé. Configure config/mail.local.php selon le guide puis active le test.');
+            }
+            foreach (['host', 'username', 'password', 'from_email'] as $cleMail) {
+                if (empty($mailConfig[$cleMail])) throw new RuntimeException('Configuration SMTP incomplète : vérifie le fichier local de configuration e-mail.');
+            }
+            if (!filter_var($mailConfig['from_email'], FILTER_VALIDATE_EMAIL) || !filter_var($mailConfig['username'], FILTER_VALIDATE_EMAIL)) {
+                throw new RuntimeException('L’adresse Gmail de configuration est invalide. Vérifie son orthographe exacte.');
+            }
+            require_once __DIR__ . '/../vendor/autoload.php';
+            $mailer = new PHPMailer\PHPMailer\PHPMailer(true);
+            try {
+                $mailer->isSMTP();
+                $mailer->Host = (string)$mailConfig['host'];
+                $mailer->SMTPAuth = true;
+                $mailer->Username = (string)$mailConfig['username'];
+                $mailer->Password = (string)$mailConfig['password'];
+                $mailer->Port = (int)($mailConfig['port'] ?? 587);
+                $mailer->CharSet = 'UTF-8';
+                $mailer->SMTPSecure = ((string)($mailConfig['encryption'] ?? 'tls') === 'ssl')
+                    ? PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_SMTPS
+                    : PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
+                $mailer->setFrom((string)$mailConfig['from_email'], (string)($mailConfig['from_name'] ?? 'Fondation MARIA - V'));
+                $mailer->addAddress($destinataire, trim((string)$demandeSelectionnee['prenom'] . ' ' . (string)$demandeSelectionnee['nom']));
+                $mailer->Subject = 'Convention d’aide financière — Fondation MARIA-V — ' . (string)$contratMail['numero_contrat'];
+                $mailer->Body = "Bonjour " . trim((string)$demandeSelectionnee['prenom'] . ' ' . (string)$demandeSelectionnee['nom']) . ",\n\nVeuillez trouver en pièce jointe le contrat préparé pour votre dossier " . (string)$demandeSelectionnee['numero_suivi'] . ".\n\nVeuillez lire attentivement le document et nous contacter via les coordonnées officielles de la Fondation pour toute question. Ne procédez à aucun paiement sur la seule base de cet e-mail.\n\nCordialement,\nFondation MARIA-V";
+                $mailer->AltBody = $mailer->Body;
+                $nomFichier = preg_replace('/[^A-Za-z0-9._-]/', '_', basename((string)($fichier['name'] ?? 'contrat.pdf')));
+                $mailer->addAttachment((string)$fichier['tmp_name'], $nomFichier !== '' ? $nomFichier : 'contrat.pdf', 'base64', 'application/pdf');
+                $mailer->send();
+            } catch (Throwable $mailException) {
+                error_log('MARIA-V envoi contrat ' . (string)$contratMail['numero_contrat'] . ' : ' . $mailException->getMessage());
+                throw new RuntimeException('L’envoi n’a pas été confirmé par le serveur de messagerie. Le contrat n’a pas été marqué comme envoyé. Vérifie la configuration SMTP et réessaie.');
+            }
+            $majStatut = $pdo->prepare("UPDATE contrats_aide SET statut_contrat='envoye', admin_id=:admin WHERE demande_id=:demande");
+            $majStatut->execute(['admin'=>(int)$adminConnecte['id'], 'demande'=>$demandeId]);
+            $message = 'Contrat envoyé à ' . $destinataire . ' avec le PDF en pièce jointe.';
+        } elseif ($action === 'enregistrer') {
             $montantAide = filter_var($_POST['montant_aide'] ?? '', FILTER_VALIDATE_FLOAT);
             $pourcentage = filter_var($_POST['pourcentage_apport'] ?? '', FILTER_VALIDATE_FLOAT);
             $statutContrat = (string)($_POST['statut_contrat'] ?? 'prepare');
@@ -135,7 +199,24 @@ function valeurFormulaire(array|null $ligne, string $cle, string $defaut = ''): 
       <label for="notes">Notes internes / modalités convenues</label><textarea name="notes" id="notes" rows="4" maxlength="5000"><?= e(valeurFormulaire($demandeSelectionnee,'notes')) ?></textarea>
       <button class="btn btn-primary" type="submit">Enregistrer le contrat</button>
     </form>
-    <?php endif; ?></section>
+    <?php endif; ?>
+    <?php if ($demandeSelectionnee && ($demandeSelectionnee['statut'] ?? '') === 'acceptee' && !empty($demandeSelectionnee['numero_contrat'])): ?>
+    <div class="admin-panel">
+      <h3>Envoyer le contrat par e-mail</h3>
+      <p>Prépare le contrat dans l’onglet du document, imprime-le en PDF, puis sélectionne ce PDF ci-dessous. L’envoi est réservé aux demandes acceptées et le statut ne passera à « Envoyé » qu’après confirmation SMTP.</p>
+      <p><a class="btn btn-outline" target="_blank" rel="noopener" href="contrat-document.php?demande_id=<?= (int)$demandeSelectionnee['id'] ?>">Ouvrir / préparer le contrat</a></p>
+      <form method="post" enctype="multipart/form-data" class="contact-form" onsubmit="return confirm('Envoyer le PDF sélectionné au bénéficiaire ? Vérifie le destinataire et le document avant de confirmer.');">
+        <input type="hidden" name="csrf_token" value="<?= e($_SESSION['csrf_global']) ?>">
+        <input type="hidden" name="demande_id" value="<?= (int)$demandeSelectionnee['id'] ?>">
+        <input type="hidden" name="action" value="envoyer_pdf">
+        <label for="contrat_pdf">PDF du contrat (10 Mo maximum)</label>
+        <input type="file" id="contrat_pdf" name="contrat_pdf" accept="application/pdf,.pdf" required>
+        <p>Destinataire : <strong><?= e((string)$demandeSelectionnee['email']) ?></strong></p>
+        <button class="btn btn-primary" type="submit">Envoyer le contrat par e-mail</button>
+      </form>
+    </div>
+    <?php endif; ?>
+    </section>
     <section class="admin-panel"><h3>Contrats enregistrés</h3><?php if (!$contrats): ?><p>Aucun contrat enregistré pour le moment.</p><?php else: ?><div class="table-responsive"><table><thead><tr><th>Contrat</th><th>Bénéficiaire</th><th>Aide</th><th>Apport prévu</th><th>État du contrat</th><th>État de l’apport</th><th>Action</th></tr></thead><tbody><?php foreach ($contrats as $c): ?><tr><td><?= e($c['numero_contrat']) ?></td><td><?= e($c['prenom'].' '.$c['nom']) ?><br><small><?= e($c['numero_suivi']) ?></small><br><small><?= e(str_replace('\\', '', (string)$c['email'])) ?></small></td><td><?= number_format((float)$c['montant_aide'],2,',',' ') ?> €</td><td><?= e((string)$c['pourcentage_apport']) ?> % — <?= number_format((float)$c['montant_apport'],2,',',' ') ?> €</td><td><?= e($statutsContrat[$c['statut_contrat']] ?? $c['statut_contrat']) ?></td><td><?= e($statutsApport[$c['statut_apport']] ?? $c['statut_apport']) ?></td><td><a href="?demande_id=<?= (int)$c['demande_id'] ?>">Modifier</a><br><a href="contrat-document.php?demande_id=<?= (int)$c['demande_id'] ?>">Préparer le contrat</a></td></tr><?php endforeach; ?></tbody></table></div><?php endif; ?></section>
 </main>
 <script>
