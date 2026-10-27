@@ -1,15 +1,18 @@
 <?php
 /**
- * Exemple de configuration locale Gmail pour WampServer.
- * Copiez ce fichier en mail.local.php et renseignez les valeurs sur VOTRE ordinateur.
- * Ne partagez jamais mail.local.php : il contient le mot de passe d'application.
+ * Configuration locale Gmail pour la Fondation MARIA-V.
+ * Ne partagez jamais ce fichier : il contient le mot de passe d'application.
  */
 return [
-    'enabled' => true, // passez à true seulement après avoir vérifié l'adresse et le SMTP
+    'enabled' => true,
     'host' => 'smtp.gmail.com',
     'port' => 587,
     'encryption' => 'tls',
-    'username' => '',
-    'password' => '',
-    'from_email' => '',
+
+    // Utilisez la même adresse Gmail pour username et from_email.
+    'username' => 'VOTRE_ADRESSE_GMAIL',
+    'password' => 'VOTRE_MOT_DE_PASSE_APPLICATION',
+
+    'from_email' => 'VOTRE_ADRESSE_GMAIL',
     'from_name' => 'Fondation MARIA-V',
+];
