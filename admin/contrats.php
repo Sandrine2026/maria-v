@@ -166,9 +166,8 @@ try {
         FROM contrats_aide c INNER JOIN demandes_aide da ON da.id=c.demande_id
         INNER JOIN demandeurs d ON d.id=da.demandeur_id ORDER BY c.date_modification DESC, c.id DESC")->fetchAll(PDO::FETCH_ASSOC);
 } catch (Throwable $e) {
-    error_log('MARIA-V contrats: ' . $e->getMessage());
-    $erreur = $e instanceof RuntimeException ? $e->getMessage() : 'Impossible de charger les contrats. Vérifie que la migration database/migration_contrats_aide.sql a été exécutée dans phpMyAdmin.';
-    error_log('MARIA-V détail erreur contrats : ' . $e->getMessage());
+    error_log('MARIA-V contrats : ' . $e->getMessage());
+    $erreur = 'Erreur technique : ' . $e->getMessage();
 }
 function valeurFormulaire(array|null $ligne, string $cle, string $defaut = ''): string {
     return (string)($ligne[$cle] ?? $defaut);

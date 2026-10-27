@@ -5,12 +5,11 @@
  * Ne partagez jamais mail.local.php : il contient le mot de passe d'application.
  */
 return [
-    'enabled' => false, // passez à true seulement après avoir vérifié l'adresse et le SMTP
+    'enabled' => true, // passez à true seulement après avoir vérifié l'adresse et le SMTP
     'host' => 'smtp.gmail.com',
     'port' => 587,
     'encryption' => 'tls',
-    'username' => 'www.sandrine93@gmail.com',
-    'password' => 'cxkwmxygxpsxzble',
-    'from_email' => 'www.sandrine93@gmail.com',
+    'username' => '',
+    'password' => '',
+    'from_email' => '',
     'from_name' => 'Fondation MARIA-V',
-];
