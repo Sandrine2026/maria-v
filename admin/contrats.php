@@ -81,6 +81,10 @@ try {
             $mailer = new PHPMailer\PHPMailer\PHPMailer(true);
             try {
                 $mailer->isSMTP();
+                $mailer->SMTPDebug = 2;
+                $mailer->Debugoutput = static function ($message, $level) {
+                error_log('MARIA-V SMTP [' . $level . '] ' . $message);
+            };
                 $mailer->Host = (string)$mailConfig['host'];
                 $mailer->SMTPAuth = true;
                 $mailer->Username = (string)$mailConfig['username'];
@@ -92,9 +96,20 @@ try {
                     : PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
                 $mailer->setFrom((string)$mailConfig['from_email'], (string)($mailConfig['from_name'] ?? 'Fondation MARIA - V'));
                 $mailer->addAddress($destinataire, trim((string)$demandeSelectionnee['prenom'] . ' ' . (string)$demandeSelectionnee['nom']));
-                $mailer->Subject = 'Convention d’aide financière — Fondation MARIA-V — ' . (string)$contratMail['numero_contrat'];
-                $mailer->Body = "Bonjour " . trim((string)$demandeSelectionnee['prenom'] . ' ' . (string)$demandeSelectionnee['nom']) . ",\n\nVeuillez trouver en pièce jointe le contrat préparé pour votre dossier " . (string)$demandeSelectionnee['numero_suivi'] . ".\n\nVeuillez lire attentivement le document et nous contacter via les coordonnées officielles de la Fondation pour toute question. Ne procédez à aucun paiement sur la seule base de cet e-mail.\n\nCordialement,\nFondation MARIA-V";
-                $mailer->AltBody = $mailer->Body;
+                $tokenRetour = bin2hex(random_bytes(32));
+                $basePublique = rtrim((string)($mailConfig['public_base_url'] ?? ''), '/');
+                $lienRetour = $basePublique !== ''
+                    ? $basePublique . '/public/retour-contrat.php?token=' . rawurlencode($tokenRetour)
+                    : '';
+                $corps = "Bonjour " . trim((string)$demandeSelectionnee['prenom'] . ' ' . (string)$demandeSelectionnee['nom']) . ",\n\nVeuillez trouver en pièce jointe le contrat préparé pour votre dossier " . (string)$demandeSelectionnee['numero_suivi'] . ".\n\nLisez attentivement le document. Pour le retourner signé, vous pouvez répondre à ce courriel en joignant le PDF signé.";
+                if ($lienRetour !== '') {
+                    $corps .= "\n\nVous pouvez également transmettre le PDF signé via ce lien personnel sécurisé :\n" . $lienRetour . "\nCe lien est confidentiel : ne le transférez pas à une autre personne.";
+                } else {
+                    $corps .= "\n\nLe formulaire de retour en ligne sera disponible lorsque le site sera publié sur un domaine HTTPS. En attendant, répondez à ce courriel en joignant le PDF signé.";
+                }
+                $corps .= "\n\nNe procédez à aucun paiement sur la seule base de cet e-mail.\n\nCordialement,\nFondation MARIA-V";
+                $mailer->Body = $corps;
+                $mailer->AltBody = $corps;
                 $nomFichier = preg_replace('/[^A-Za-z0-9._-]/', '_', basename((string)($fichier['name'] ?? 'contrat.pdf')));
                 $mailer->addAttachment((string)$fichier['tmp_name'], $nomFichier !== '' ? $nomFichier : 'contrat.pdf', 'base64', 'application/pdf');
                 $mailer->send();
@@ -102,8 +117,12 @@ try {
                 error_log('MARIA-V envoi contrat ' . (string)$contratMail['numero_contrat'] . ' : ' . $mailException->getMessage());
                 throw new RuntimeException('L’envoi n’a pas été confirmé par le serveur de messagerie. Le contrat n’a pas été marqué comme envoyé. Vérifie la configuration SMTP et réessaie.');
             }
-            $majStatut = $pdo->prepare("UPDATE contrats_aide SET statut_contrat='envoye', admin_id=:admin WHERE demande_id=:demande");
-            $majStatut->execute(['admin'=>(int)$adminConnecte['id'], 'demande'=>$demandeId]);
+            $majStatut = $pdo->prepare("UPDATE contrats_aide SET statut_contrat='envoye', token_retour_hash=:token_hash, date_modification=NOW(), admin_id=:admin WHERE demande_id=:demande");
+            $majStatut->execute([
+                'token_hash' => hash('sha256', $tokenRetour),
+                'admin' => (int)$adminConnecte['id'],
+                'demande' => $demandeId
+            ]);
             $message = 'Contrat envoyé à ' . $destinataire . ' avec le PDF en pièce jointe.';
         } elseif ($action === 'enregistrer') {
             $montantAide = filter_var($_POST['montant_aide'] ?? '', FILTER_VALIDATE_FLOAT);
@@ -165,10 +184,55 @@ try {
     $contrats = $pdo->query("SELECT c.*, da.numero_suivi, da.email, d.nom, d.prenom
         FROM contrats_aide c INNER JOIN demandes_aide da ON da.id=c.demande_id
         INNER JOIN demandeurs d ON d.id=da.demandeur_id ORDER BY c.date_modification DESC, c.id DESC")->fetchAll(PDO::FETCH_ASSOC);
-} catch (Throwable $e) {
-    error_log('MARIA-V contrats : ' . $e->getMessage());
-    $erreur = 'Erreur technique : ' . $e->getMessage();
+
+} catch (Throwable $operationException) {
+    // Ne pas relancer l'exception : cela empêchait le rendu de la page et le
+    // rechargement des listes après une erreur de validation ou SMTP.
+    error_log(
+        'MARIA-V admin/contrats.php : '
+        . $operationException->getMessage()
+    );
+    if (isset($mailer) && $mailer instanceof PHPMailer\PHPMailer\PHPMailer && $mailer->ErrorInfo !== '') {
+        error_log('MARIA-V détail SMTP : ' . $mailer->ErrorInfo);
+    }
+    $erreur = $operationException instanceof RuntimeException
+        ? $operationException->getMessage()
+        : 'Une opération a échoué. Consulte le journal PHP de WampServer pour le détail technique.';
 }
+
+// Recharger les listes même si l'action POST a échoué. L'ancienne version
+// quittait le bloc avant ces requêtes, donnant l'impression que la base était vide.
+try {
+    if (!$demandes) {
+        $demandes = $pdo->query("SELECT da.id, da.numero_suivi, da.email, da.date_creation, d.nom, d.prenom
+            FROM demandes_aide da INNER JOIN demandeurs d ON d.id=da.demandeur_id
+            WHERE da.statut='acceptee' ORDER BY da.id DESC")->fetchAll(PDO::FETCH_ASSOC);
+    }
+    $idCharge = filter_input(INPUT_GET, 'demande_id', FILTER_VALIDATE_INT);
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $idCharge = filter_var($_POST['demande_id'] ?? null, FILTER_VALIDATE_INT);
+    }
+    if ($idCharge && (!$demandeSelectionnee || !array_key_exists('numero_contrat', $demandeSelectionnee))) {
+        $q = $pdo->prepare("SELECT da.id, da.numero_suivi, da.statut, da.email, d.nom, d.prenom,
+            c.numero_contrat, c.montant_aide, c.pourcentage_apport, c.montant_apport,
+            c.statut_contrat, c.statut_apport, c.montant_apport_recu, c.notes
+            FROM demandes_aide da INNER JOIN demandeurs d ON d.id=da.demandeur_id
+            LEFT JOIN contrats_aide c ON c.demande_id=da.id
+            WHERE da.id=:id AND da.statut='acceptee' LIMIT 1");
+        $q->execute(['id'=>(int)$idCharge]);
+        $demandeSelectionnee = $q->fetch(PDO::FETCH_ASSOC) ?: null;
+    }
+    if (!$contrats) {
+        $contrats = $pdo->query("SELECT c.*, da.numero_suivi, da.email, d.nom, d.prenom
+            FROM contrats_aide c INNER JOIN demandes_aide da ON da.id=c.demande_id
+            INNER JOIN demandeurs d ON d.id=da.demandeur_id
+            ORDER BY c.date_modification DESC, c.id DESC")->fetchAll(PDO::FETCH_ASSOC);
+    }
+} catch (Throwable $loadException) {
+    error_log('MARIA-V chargement contrats : ' . $loadException->getMessage());
+    if ($erreur === '') $erreur = 'Impossible de charger les contrats. Vérifie le journal PHP de WampServer.';
+}
+
 function valeurFormulaire(array|null $ligne, string $cle, string $defaut = ''): string {
     return (string)($ligne[$cle] ?? $defaut);
 }
